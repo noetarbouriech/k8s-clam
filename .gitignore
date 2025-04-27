@@ -38,3 +38,16 @@ disk.raw
 controlplane.yaml
 worker.yaml
 talosconfig
+
+# Blue team related
+blue/simple_app/api/package-lock.json
+blue/simple_app/api/node_modules
+blue/simple_app/api/dist
+
+blue/simple_app/client/package-lock.json
+blue/simple_app/client/node_modules
+blue/simple_app/client/dist
+
+# Red team related
+red/red_one/Cargo.lock
+red/red_one/target
