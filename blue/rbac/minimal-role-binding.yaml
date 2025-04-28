@@ -1,0 +1,15 @@
+# Allow user 'ci' to ... (see minimal-role-ci)
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: deploy-app
+  namespace: app
+subjects:
+- kind: ServiceAccount
+  name: ci
+  apiGroup: ""
+roleRef:
+  kind: Role
+  name: minimal-role-ci # Role name
+  apiGroup: rbac.authorization.k8s.io
