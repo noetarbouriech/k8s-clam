@@ -1,0 +1,32 @@
+replicaCount: 1
+webhookPort: 9443
+syncPeriod: 1m
+defaultScaleDownDelay: 5m
+enableLeaderElection: true
+
+authSecret:
+  enabled: true
+  create: true
+  name: "controller-manager"
+  github_token: "CHANGEME"
+
+image:
+  repository: "summerwind/actions-runner-controller"
+  actionsRunnerRepositoryAndTag: "summerwind/actions-runner:ubuntu-20.04"
+  dindSidecarRepositoryAndTag: "docker:dind"
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+  name: "ci"
+
+service:
+  type: ClusterIP
+  port: 443
+
+certManagerEnabled: false
+
+logFormat: text
+
+githubWebhookServer:
+  enabled: false
