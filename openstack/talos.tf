@@ -14,6 +14,15 @@ data "talos_machine_configuration" "control_plane" {
         }
         certSANs = openstack_networking_floatingip_v2.control_plane_fips[*].address
       }
+    }),
+    yamlencode({
+      cluster = {
+        network = {
+          cni = {
+            name = "none"
+          }
+        }
+      }
     })
   ]
 }
@@ -29,6 +38,15 @@ data "talos_machine_configuration" "worker_node" {
         install = {
           disk = "/dev/vda"
           wipe = true
+        }
+      }
+    }),
+    yamlencode({
+      cluster = {
+        network = {
+          cni = {
+            name = "none"
+          }
         }
       }
     })
