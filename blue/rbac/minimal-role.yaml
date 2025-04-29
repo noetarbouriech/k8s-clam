@@ -4,7 +4,6 @@ metadata:
   namespace: app
   name: minimal-role-ci
 rules:
-# TODO: change this to be able to push simple-app
-- apiGroups: [""] # "" indicates the core API group
-  resources: ["pods"]
-  verbs: ["get", "watch", "list"]
+- apiGroups: [""]
+  resources: ["pods", "configmaps", "secrets"]
+  verbs: ["create", "delete"]

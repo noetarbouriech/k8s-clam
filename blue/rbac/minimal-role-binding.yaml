@@ -8,7 +8,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: ci
-  apiGroup: ""
+  namespace: arc-systems
 roleRef:
   kind: Role
   name: minimal-role-ci # Role name
