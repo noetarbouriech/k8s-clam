@@ -1,0 +1,76 @@
+repositories:
+  - name: prometheus-community
+    url: https://prometheus-community.github.io/helm-charts
+  - name: cilium
+    url: https://helm.cilium.io/
+  - name: kyverno
+    url: https://kyverno.github.io/kyverno/
+  - name: kubearmor
+    url: https://kubearmor.github.io/charts
+
+releases:
+  - name: prometheus-operator-crds
+    namespace: monitoring
+    chart: prometheus-community/prometheus-operator-crds
+    version: 20.0.0
+
+  - name: kube-prometheus-stack
+    namespace: monitoring
+    chart: prometheus-community/kube-prometheus-stack
+    version: 71.0.0
+    needs:
+      - prometheus-operator-crds
+    set:
+      - name: crds.enabled
+        value: false
+      - name: grafana.enabled
+        value: true
+      - name: grafana.adminUser
+        value: admin
+      - name: grafana.adminPassword
+        value: admin
+
+  - name: cilium
+    namespace: kube-system
+    chart: cilium/cilium
+    version: 1.17.3
+    set:
+      - name: prometheus.enabled
+        value: true
+      - name: operator.prometheus.enabled
+        value: true
+      - name: hubble.enabled
+        value: true
+      - name: hubble.metrics.enableOpenMetrics
+        value: true
+      - name: hubble.metrics.enabled
+        values:
+          - dns
+          - drop
+          - tcp
+          - icmp
+          - flow
+          - port-distribution
+          - httpV2:exemplars=true;labelsContext=source_ip,source_namespace,source_workload,destination_ip,destination_namespace,destination_workload,traffic_direction
+      # - name: ipam.mode
+      #   value: kubernetes
+      # - name: kubeProxyReplacement
+      #   value: false
+      # - name: securityContext.capabilities.ciliumAgent
+      #   value: "{CHOWN,KILL,NET_ADMIN,NET_RAW,IPC_LOCK,SYS_ADMIN,SYS_RESOURCE,DAC_OVERRIDE,FOWNER,SETGID,SETUID}"
+      # - name: securityContext.capabilities.cleanCiliumState
+      #   value: "{NET_ADMIN,SYS_ADMIN,SYS_RESOURCE}"
+      # - name: cgroup.autoMount.enabled
+      #   value: false
+      # - name: cgroup.hostRoot
+      #   value: /sys/fs/cgroup
+
+  - name: kyverno
+    namespace: kyverno
+    chart: kyverno/kyverno
+    version: 3.3.7
+
+  - name: kubearmor-operator
+    namespace: kubearmor
+    chart: kubearmor/kubearmor-operator
+    version: 1.5.4
