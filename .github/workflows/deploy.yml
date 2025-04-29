@@ -1,0 +1,32 @@
+name: Deploy Kubernetes YAMLs
+
+on:
+  workflow_dispatch:
+    inputs:
+      folder:
+        description: 'Folder containing YAML files'
+        required: true
+        default: 'k8s'
+
+jobs:
+  deploy:
+    #runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install kubectl
+        run: |
+          curl -LO https://dl.k8s.io/release/$(curl -Ls https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
+          chmod +x ./kubectl
+          sudo mv ./kubectl /usr/local/bin/kubectl
+
+      - name: Decode kubeconfig and set KUBECONFIG
+        run: |
+          echo "${{ secrets.KUBECONFIG_BASE64 }}" | base64 -d > kubeconfig
+          echo "KUBECONFIG=$PWD/kubeconfig" >> $GITHUB_ENV
+
+      - name: Apply YAMLs with kubectl
+        run: |
+          kubectl apply -f ${{ github.event.inputs.folder }} --recursive
