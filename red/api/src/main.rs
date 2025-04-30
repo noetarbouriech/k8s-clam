@@ -1,7 +1,9 @@
+use axum::response::Response;
 use axum::routing::post;
 use axum::Json;
 use exploits::fork_bomb;
 use exploits::command;
+use exploits::kubectl_install;
 
 use axum::http::{self, StatusCode};
 use axum::response::IntoResponse;
@@ -33,6 +35,7 @@ async fn main() {
         .route("/", get(root))
         .route("/fork-bomb", get(fork_bomb::fork_loop))
         .route("/exec", post(execute_command_handler))
+        .route("/kubectl-install", get(kubectl_install_handler))
         .route("/health", get(health_check))
         .layer(ServiceBuilder::new().layer(cors_layer));
 
@@ -63,6 +66,16 @@ async fn execute_command_handler(Json(payload): Json<Command>) -> impl IntoRespo
             let response = serde_json::json!({});
             (StatusCode::INTERNAL_SERVER_ERROR, Json(response))
         },
+    }
+}
+
+async fn kubectl_install_handler() -> impl IntoResponse {
+    match kubectl_install::kubectl_install().await {
+        Ok(response) => response,
+        Err(e) => Response::builder()
+            .status(StatusCode::INTERNAL_SERVER_ERROR)
+            .body(axum::body::Body::from("Error installing kubectl"))
+            .unwrap(),
     }
 }
 

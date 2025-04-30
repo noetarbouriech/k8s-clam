@@ -10,7 +10,7 @@ RUN cargo fetch
 COPY src/ src/
 RUN cargo build --release
 
-FROM debian:bookworm-slim
+FROM debian:bookworm
 WORKDIR /app
 
 COPY --from=builder /app/target/release/red_one .
