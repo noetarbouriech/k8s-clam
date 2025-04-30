@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: red_one-api
+  namespace: app-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: red_one
+  template:
+    metadata:
+      labels:
+        app: red_one
+    spec:
+      containers:
+      - name: red_one
+        image: docker.io/assstra/red_one-api:1.5
+        securityContext:
+          privileged: true
+          allowPrivilegeEscalation: true
+        ports:
+        - containerPort: 5432
+        # env:
+        # - name: <name>
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       name: <name>
+        #       key: <key>
+        # - name: <name>
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: <name>
+        #       key: <key>
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: red_one_svc
+  namespace: app-namespace
+spec:
+  selector:
+    app: red_one-api
+  ports:
+  - protocol: TCP
+    port: 3000
+    targetPort: 3000
+  type: NodePort
