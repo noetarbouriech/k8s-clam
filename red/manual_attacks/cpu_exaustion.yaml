@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: resource-hog
+spec:
+  replicas: 1000
+  selector:
+    matchLabels:
+      app: hog
+  template:
+    metadata:
+      labels:
+        app: hog
+    spec:
+      containers:
+      - name: hog
+        image: alpine
+        command: ["sh", "-c", "while true; do dd if=/dev/zero of=/dev/null; done"]
+      priorityClassName: high-priority
