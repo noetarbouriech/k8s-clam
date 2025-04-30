@@ -7,6 +7,8 @@ repositories:
     url: https://kyverno.github.io/kyverno/
   - name: kubearmor
     url: https://kubearmor.github.io/charts
+  - name: actions-runner-controller
+    url: https://actions-runner-controller.github.io/actions-runner-controller
 
 releases:
   - name: prometheus-operator-crds
@@ -117,3 +119,10 @@ releases:
     version: 1.5.4
     needs:
       - monitoring/prometheus-operator-crds
+
+  - name: actions-runner-controller
+    namespace: arc-systems
+    chart: actions-runner-controller/actions-runner-controller
+    version: 0.23.7
+    values:
+      - ./blue/pipeline/runner-controller.yaml
