@@ -49,5 +49,6 @@ blue/simple_app/client/node_modules
 blue/simple_app/client/dist
 
 # Red team related
-red/red_one/Cargo.lock
-red/red_one/target
+red/api/Cargo.lock
+red/api/target
+red/client/node_modules

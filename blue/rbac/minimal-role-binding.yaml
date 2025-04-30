@@ -4,11 +4,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: deploy-app
-  namespace: app
+  namespace: app-clam
 subjects:
 - kind: ServiceAccount
-  name: ci
-  namespace: arc-systems
+  name: red-team
+  namespace: app-clam
 roleRef:
   kind: Role
   name: minimal-role-ci # Role name

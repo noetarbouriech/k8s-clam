@@ -1,7 +1,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  namespace: app
+  namespace: app-clam
   name: minimal-role-ci
 rules:
 - apiGroups: [""]
