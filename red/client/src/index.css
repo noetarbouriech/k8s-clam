@@ -1,0 +1,114 @@
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=VT323&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 13% 5%;
+    --foreground: 120 100% 86%;
+
+    --card: 220 13% 8%;
+    --card-foreground: 120 100% 86%;
+
+    --popover: 220 13% 5%;
+    --popover-foreground: 120 100% 86%;
+
+    --primary: 120 100% 50%;
+    --primary-foreground: 0 0% 0%;
+
+    --secondary: 220 13% 15%;
+    --secondary-foreground: 120 100% 86%;
+
+    --muted: 220 13% 15%;
+    --muted-foreground: 120 100% 75%;
+
+    --accent: 220 70% 50%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 220 13% 20%;
+    --input: 220 13% 15%;
+    --ring: 120 100% 50%;
+
+    --radius: 0.25rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-cyber-black text-cyber-green font-mono min-h-screen;
+  }
+
+  ::selection {
+    @apply bg-cyber-green text-cyber-black;
+  }
+}
+
+@layer components {
+  .cyber-border {
+    @apply border border-cyber-green relative after:absolute after:inset-0 after:border after:border-cyber-green/50 after:translate-x-[3px] after:translate-y-[3px] after:pointer-events-none;
+  }
+
+  .cyber-window {
+    @apply bg-cyber-dark border border-cyber-green rounded-sm p-4 relative overflow-hidden;
+  }
+  
+  .cyber-window::before {
+    content: "";
+    @apply absolute top-0 left-0 w-full h-[2px] bg-cyber-green/50 opacity-50 z-10;
+  }
+  
+  .cyber-window::after {
+    content: "";
+    @apply absolute top-0 left-0 h-full w-full bg-gradient-to-b from-cyber-green/5 to-transparent pointer-events-none;
+  }
+  
+  .scan-line {
+    @apply absolute top-0 left-0 w-full h-[5px] bg-cyber-green/10 opacity-30 animate-scan z-10 pointer-events-none;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-cyber-dark;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-cyber-green/30 rounded-full hover:bg-cyber-green/50 transition-colors;
+}
+
+/* Terminal styling */
+.terminal-output {
+  @apply font-mono text-cyber-text whitespace-pre-wrap;
+}
+
+.terminal-output .success {
+  @apply text-cyber-green;
+}
+
+.terminal-output .error {
+  @apply text-cyber-red;
+}
+
+.terminal-output .info {
+  @apply text-blue-400;
+}
+
+.terminal-output .warning {
+  @apply text-yellow-400;
+}
+
+.terminal-prompt::after {
+  content: "_";
+  @apply animate-blink inline-block;
+}
