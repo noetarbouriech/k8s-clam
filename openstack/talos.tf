@@ -16,6 +16,17 @@ data "talos_machine_configuration" "control_plane" {
       }
     }),
     yamlencode({
+      machine = {
+        install = {
+          extensions = [
+            {
+              image = "ghcr.io/siderolabs/kata-containers:3.15.0"
+            }
+          ]
+        }
+      }
+    }),
+    yamlencode({
       cluster = {
         network = {
           cni = {
@@ -38,6 +49,17 @@ data "talos_machine_configuration" "worker_node" {
         install = {
           disk = "/dev/vda"
           wipe = true
+        }
+      }
+    }),
+    yamlencode({
+      machine = {
+        install = {
+          extensions = [
+            {
+              image = "ghcr.io/siderolabs/kata-containers:3.15.0"
+            }
+          ]
         }
       }
     }),

@@ -1,12 +1,17 @@
 cluster_name := "k8s-clam-dev"
 
 init:
-  kind create cluster --name {{ cluster_name }}
   just --justfile {{justfile()}} helmfile-sync
   # waiting for services to start (can add others)
   kubectl wait --for=jsonpath='{.status.readyReplicas}'=1 deploy/kubearmor-operator --namespace kubearmor
   # applying custom manifests
   kubectl apply -f ./manifests/kubearmor-config.yaml
+  # applying kata runtimeclass
+  kubectl apply -f ./manifests/kata-runtimeclass.yaml
+
+dev:
+  kind create cluster --name {{ cluster_name }}
+  just --justfile {{justfile()}} init
 
 helmfile-sync:
   #!/bin/bash

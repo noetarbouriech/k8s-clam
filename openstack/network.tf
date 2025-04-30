@@ -14,7 +14,7 @@ resource "openstack_networking_subnet_v2" "talos-subnet" {
   network_id      = openstack_networking_network_v2.talos.id
   cidr            = "192.168.0.0/24"
   ip_version      = 4
-  dns_nameservers = ["9.9.9.9"]
+  dns_nameservers = ["1.1.1.1", "8.8.8.8", "9.9.9.9"]
 }
 
 resource "openstack_networking_router_interface_v2" "talos-router-interface" {
