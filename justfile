@@ -21,4 +21,4 @@ dev:
 delete-dev:
   kind delete cluster --name {{ cluster_name }}
 
-recreate-dev: delete dev
+recreate-dev: delete-dev dev
