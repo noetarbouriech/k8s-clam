@@ -24,6 +24,7 @@ jobs:
         with:
           images: ${{ inputs.image }}
           tags: |
+            type=raw,value=latest
             type=semver,pattern={{version}}
 
       - name: Login to github container registry
