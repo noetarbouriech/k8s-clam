@@ -9,16 +9,16 @@ init:
   # applying kata runtimeclass
   kubectl apply -f ./manifests/kata-runtimeclass.yaml
 
-dev:
-  kind create cluster --name {{ cluster_name }}
-  just --justfile {{justfile()}} init
-
 helmfile-sync:
   #!/bin/bash
   # set -a; source .env; set +a;
   helmfile sync
 
-delete:
+dev:
+  kind create cluster --name {{ cluster_name }}
+  just --justfile {{justfile()}} init
+
+delete-dev:
   kind delete cluster --name {{ cluster_name }}
 
-recreate: delete init
+recreate-dev: delete dev
