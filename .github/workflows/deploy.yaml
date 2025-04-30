@@ -3,10 +3,13 @@ name: Deploy Kubernetes YAMLs
 on:
   workflow_dispatch:
     inputs:
-      folder:
-        description: 'Folder containing YAML files'
+      repository:
+        description: "Repository name with owner. For example, actions/checkout"
         required: true
-        default: 'k8s'
+        default: "noetarbouriech/k8s-clam"
+      folder:
+        description: "Folder containing YAML files"
+        required: true
 
 jobs:
   deploy:
@@ -14,13 +17,11 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.inputs.repository }}
 
-      - name: Install kubectl
-        run: |
-          curl -LO https://dl.k8s.io/release/$(curl -Ls https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
-          chmod +x ./kubectl
-          sudo mv ./kubectl /usr/local/bin/kubectl
+      - uses: azure/setup-kubectl@v4
 
       - name: Apply YAMLs with kubectl
         run: |
