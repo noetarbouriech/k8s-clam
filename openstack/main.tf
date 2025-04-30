@@ -4,7 +4,7 @@ resource "openstack_images_image_v2" "talos_image" {
   visibility       = "private"
   disk_format      = "iso"
   container_format = "bare"
-  image_source_url = "https://factory.talos.dev/image/885b1439e94c8d036d7e92ea15a088e163a74b7f9ca7eeffea8e0f375d471749/v1.9.5/openstack-amd64.iso"
+  image_source_url = "https://factory.talos.dev/image/3da7f440f279f4814fa73bdf83c84710a8e93c40a4a3cbba4d969f14afb96298/v1.9.5/openstack-amd64.iso"
 }
 
 resource "openstack_compute_instance_v2" "control_planes" {
