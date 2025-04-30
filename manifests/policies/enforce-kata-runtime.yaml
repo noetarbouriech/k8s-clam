@@ -1,0 +1,28 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: enforce-kata-runtime
+spec:
+  validationFailureAction: enforce
+  rules:
+  - name: inject-kata-runtime
+    match:
+      any:
+      - resources:
+          kinds: ["Pod"]
+          namespaces: ["app-clam"]
+    mutate:
+      patchStrategicMerge:
+        spec:
+          runtimeClassName: kata
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+          - (name): "*"
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
+              runAsNonRoot: true
+              runAsUser: 1000

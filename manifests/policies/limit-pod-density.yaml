@@ -1,0 +1,22 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: limit-pod-density
+spec:
+  validationFailureAction: enforce
+  background: false
+  rules:
+  - name: limit-containers-per-pod
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+          namespaces:
+          - app-clam
+    validate:
+      message: "Pods cannot have more than 6 containers."
+      pattern:
+        spec:
+          containers:
+            - max: 6

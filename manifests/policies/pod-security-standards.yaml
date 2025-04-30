@@ -1,0 +1,55 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: pod-security-standards
+  namespace: app-clam
+spec:
+  validationFailureAction: enforce
+  background: true
+  rules:
+    - name: prevent-sensitive-mounts
+      match:
+        any:
+        - resources:
+            kinds:
+              - Pod
+            namespaces:
+              - app-clam
+      validate:
+        message: "Pods cannot mount sensitive host paths or use dangerous volume types."
+        pattern:
+          spec:
+            volumes:
+              - X(hostPath): "null"
+              - X(emptyDir): "null"
+              - X(secret):
+                  defaultMode: "<=0644"
+              - X(configMap):
+                  defaultMode: "<=0644"
+            =(containers):
+              - =(volumeMounts):
+                  - X(mountPath): "!/proc/*"
+                  - X(mountPath): "!/sys/*"
+                  - X(mountPath): "!/dev/*"
+                  - X(mountPath): "!/var/run/*"
+                  - X(mountPath): "!/var/lib/docker/*"
+                  - X(mountPath): "!/var/lib/kubelet/*"
+                  - X(mountPath): "!/var/lib/containers/*"
+                  - X(mountPath): "!/var/log/*"
+                  - X(mountPath): "!/etc/*"
+                  - X(mountPath): "!/root/*"
+
+    - name: restrict-host-network
+      match:
+        any:
+        - resources:
+            kinds:
+              - Pod
+            namespaces:
+              - app-clam
+      validate:
+        message: "Pods cannot use host networking or host IPC."
+        pattern:
+          spec:
+            hostNetwork: false
+            hostIPC: false

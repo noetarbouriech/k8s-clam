@@ -1,0 +1,25 @@
+---
+apiVersion: policies.kubewarden.io/v1
+kind: ClusterAdmissionPolicy
+metadata:
+  name: psa-enforcer-privileged-namespaces
+spec:
+  module: registry://ghcr.io/kubewarden/policies/psa-label-enforcer:v0.1.1
+  rules:
+    - apiGroups: [""]
+      apiVersions: ["v1"]
+      resources: ["namespaces"]
+      operations:
+        - CREATE
+        - UPDATE
+  mutating: true
+  namespaceSelector:
+    matchExpressions:
+      - key: "kubernetes.io/metadata.name"
+        operator: In
+        values: [app-clam]
+  settings:
+    reservedRuntimes:
+    - runC
+    fallbackRuntime: kata
+    defaultRuntimeReserved: true
