@@ -1,8 +1,9 @@
+# Dans db-namespace
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres
-  namespace: app
+  namespace: db-clam
 spec:
   replicas: 1
   selector:
@@ -16,6 +17,9 @@ spec:
       containers:
       - name: postgres
         image: postgres:15-alpine
+        securityContext:
+          privileged: false
+          allowPrivilegeEscalation: false
         ports:
         - containerPort: 5432
         env:
@@ -34,6 +38,8 @@ spec:
             configMapKeyRef:
               name: postgres-config
               key: PG_NAME
+        - name: POSTGRES_HOST_AUTH_METHOD
+          value: "scram-sha-256"
         volumeMounts:
         - name: postgres-data
           mountPath: /var/lib/postgresql/data
@@ -47,7 +53,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: postgres
-  namespace: app
+  namespace: db-clam
 spec:
   selector:
     app: postgres
@@ -56,4 +62,3 @@ spec:
     port: 5432
     targetPort: 5432
   type: ClusterIP
-

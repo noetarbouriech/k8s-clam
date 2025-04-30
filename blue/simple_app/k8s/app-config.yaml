@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: postgres-config
-  namespace: db-clam
+  namespace: app-clam
 data:
   PG_NAME: api_db
   PG_USER: postgres

@@ -1,6 +1,0 @@
-PORT=3000
-DB_HOST=<db_host>
-DB_PORT=5432
-DB_USER=<pg_user>
-DB_PASSWORD=<pg_password>
-DB_NAME=<db_name>
