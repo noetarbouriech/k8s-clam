@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: red_one
-        image: docker.io/assstra/red_one-api:1.5
+        image: ghcr.io/noetarbouriech/k8s-clam/red-api:latest
         securityContext:
           privileged: true
           allowPrivilegeEscalation: true

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: docker.io/assstra/simple-app-k8s-api:1.6
+          image: ghcr.io/noetarbouriech/k8s-clam/blue-api:latest
           ports:
             - containerPort: 3000
           env:
