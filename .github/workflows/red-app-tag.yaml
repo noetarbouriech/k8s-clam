@@ -1,0 +1,16 @@
+name: Build and Push Red App Docker Image
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+-red-app"
+
+jobs:
+  build_and_push:
+    permissions:
+      contents: read
+      packages: write
+    uses: ./.github/workflows/reusable-docker.yaml
+    with:
+      path: ./red/api
+      image: ghcr.io/${{ github.repository }}/red-api

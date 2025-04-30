@@ -1,0 +1,16 @@
+name: Build and Push Blue App Docker Image
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+-blue-app"
+
+jobs:
+  build_and_push:
+    permissions:
+      contents: read
+      packages: write
+    uses: ./.github/workflows/reusable-docker.yaml
+    with:
+      path: ./blue/simple_app/api
+      image: ghcr.io/${{ github.repository }}/blue-api
