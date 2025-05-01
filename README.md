@@ -6,6 +6,8 @@ This repository contains the configuration files for securing a Kubernetes clust
 
 Also, this repository contains tools to help you break a kubernetes cluster. This is not a guide to break a kubernetes cluster, but a collection of tools that can be used to break a kubernetes cluster.
 
+Presentation slides: [presentation.pdf](./presentation.pdf)
+
 ## Repository Structure
 
 ```plaintext
